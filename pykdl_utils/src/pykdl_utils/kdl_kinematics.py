@@ -181,7 +181,7 @@ class KDLKinematics(object):
             if end_link in link_names:
                 end_link = link_names.index(end_link)
             else:
-                print "Target segment %s not in KDL chain" % end_link
+                print ("Target segment %s not in KDL chain" % end_link)
                 return None
         if base_link is None:
             base_link = 0
@@ -190,14 +190,14 @@ class KDLKinematics(object):
             if base_link in link_names:
                 base_link = link_names.index(base_link)
             else:
-                print "Base segment %s not in KDL chain" % base_link
+                print ("Base segment %s not in KDL chain" % base_link)
                 return None
         base_trans = self._do_kdl_fk(q, base_link)
         if base_trans is None:
-            print "FK KDL failure on base transformation."
+            print ("FK KDL failure on base transformation.")
         end_trans = self._do_kdl_fk(q, end_link)
         if end_trans is None:
-            print "FK KDL failure on end transformation."
+            print ("FK KDL failure on end transformation.")
         return base_trans**-1 * end_trans
 
     def _do_kdl_fk(self, q, link_number):
@@ -225,9 +225,9 @@ class KDLKinematics(object):
     # @param max_joints List of joint angles to upper bound the angles on the IK search.
     #                   If None, the safety limits are used.
     # @param maxiter The maximum Newton-Raphson iterations.
-    #                If None, 100 is set. 
+    #                If None, 100 is set.
     # @param eps     The precision for the position, used to end the iterations,
-    #                If None, epsilon is set. 
+    #                If None, epsilon is set.
     # @return np.array of joint angles needed to reach the pose or None if no solution was found.
     def inverse(self, pose, q_guess=None, min_joints=None, max_joints=None, maxiter=100,\
                 eps=sys.float_info.epsilon):
@@ -276,7 +276,7 @@ class KDLKinematics(object):
             min_joints = self.joint_safety_lower
         if max_joints is None:
             max_joints = self.joint_safety_upper
-        
+
         while not rospy.is_shutdown() and rospy.get_time() - st_time < timeout:
             q_init = self.random_joint_angles()
             q_ik = self.inverse(pose, q_init, min_joints, max_joints)
@@ -467,27 +467,27 @@ def main():
         import random
         base_link = robot.get_root()
         end_link = robot.link_map.keys()[random.randint(0, len(robot.link_map)-1)]
-        print "Root link: %s; Random end link: %s" % (base_link, end_link)
+        print ("Root link: %s; Random end link: %s" % (base_link, end_link))
         kdl_kin = KDLKinematics(robot, base_link, end_link)
         q = kdl_kin.random_joint_angles()
-        print "Random angles:", q
+        print ("Random angles:", q)
         pose = kdl_kin.forward(q)
-        print "FK:", pose
+        print ("FK:", pose)
         q_new = kdl_kin.inverse(pose)
-        print "IK (not necessarily the same):", q_new
+        print ("IK (not necessarily the same):", q_new)
         if q_new is not None:
             pose_new = kdl_kin.forward(q_new)
-            print "FK on IK:", pose_new
-            print "Error:", np.linalg.norm(pose_new * pose**-1 - np.mat(np.eye(4)))
+            print ("FK on IK:", pose_new)
+            print ("Error:", np.linalg.norm(pose_new * pose**-1 - np.mat(np.eye(4))))
         else:
-            print "IK failure"
+            print ("IK failure")
         J = kdl_kin.jacobian(q)
-        print "Jacobian:", J
+        print ("Jacobian:", J)
         M = kdl_kin.inertia(q)
-        print "Inertia matrix:", M
+        print ("Inertia matrix:", M)
         if False:
             M_cart = kdl_kin.cart_inertia(q)
-            print "Cartesian inertia matrix:", M_cart
+            print ("Cartesian inertia matrix:", M_cart)
 
     if True:
         rospy.init_node("kdl_kinematics")
@@ -495,17 +495,17 @@ def main():
         while not rospy.is_shutdown() and num_times > 0:
             base_link = robot.get_root()
             end_link = robot.link_map.keys()[random.randint(0, len(robot.link_map)-1)]
-            print "Root link: %s; Random end link: %s" % (base_link, end_link)
+            print ("Root link: %s; Random end link: %s" % (base_link, end_link))
             kdl_kin = KDLKinematics(robot, base_link, end_link)
             q = kdl_kin.random_joint_angles()
             pose = kdl_kin.forward(q)
             q_guess = kdl_kin.random_joint_angles()
             q_new = kdl_kin.inverse(pose, q_guess)
             if q_new is None:
-                print "Bad IK, trying search..."
+                print ("Bad IK, trying search...")
                 q_search = kdl_kin.inverse_search(pose)
                 pose_search = kdl_kin.forward(q_search)
-                print "Result error:", np.linalg.norm(pose_search * pose**-1 - np.mat(np.eye(4)))
+                print ("Result error:", np.linalg.norm(pose_search * pose**-1 - np.mat(np.eye(4))))
             num_times -= 1
 
 if __name__ == "__main__":
