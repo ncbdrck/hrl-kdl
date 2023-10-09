@@ -5,21 +5,16 @@ Kinematics and geometry utilities for KDL
 
 See documentation here: http://wiki.ros.org/hrl-kdl
 
-This forks includes support for ROS noetic and python 3. Make sure to checkout to the 'noetic-devel' branch.
+This fork includes support for ROS noetic and Python 3. Make sure to checkout to the 'noetic-devel' branch.
 
 # Installing:
 
-See below for installing:
+See below for installation:
 
 - Clone the hrl_kdl repository in your catkin-ws folder
        
       cd ~/catkin_ws/src/
-      git clone https://github.com/amir-yazdani/hrl-kdl.git
-      
-- Checkout to the noetic-devel branch
-      
-      cd hrl-kdl
-      git checkout noetic-devel
+      git clone https://github.com/ncbdrck/hrl-kdl
 
 - Install pykd_utils
 
