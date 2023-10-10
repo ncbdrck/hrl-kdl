@@ -14,7 +14,7 @@ See below for installation:
 - Clone the hrl_kdl repository in your catkin-ws folder
        
       cd ~/catkin_ws/src/
-      git clone https://github.com/ncbdrck/hrl-kdl
+      git clone https://github.com/ncbdrck/hrl-kdl.git
 
 - Install pykd_utils
 
