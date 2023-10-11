@@ -18,7 +18,7 @@ See below for installation:
 
 - Install pykd_utils
 
-      cd pykdl_utils
+      cd ~/catkin_ws/src/hrl-kdl/pykdl_utils
       python3 setup.py build
       sudo python3 setup.py install
 
