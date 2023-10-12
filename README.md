@@ -5,7 +5,7 @@ Kinematics and geometry utilities for KDL
 
 See documentation here: http://wiki.ros.org/hrl-kdl
 
-This fork includes support for ROS noetic and Python 3. Make sure to checkout to the 'noetic-devel' branch.
+This fork includes support for ROS noetic and Python 3.
 
 # Installing:
 
